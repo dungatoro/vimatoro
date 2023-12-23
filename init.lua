@@ -155,7 +155,7 @@ vim.o.swapfile = false
 
 -- add remaps
 
-vim.keymap.set("n", "<leader>s", [[:e <C-r><C-w>.md <CR>]])
+vim.keymap.set("n", "<leader>n", [[:e <C-r><C-w>.md <CR>]])
 
 local function find_git_root()
   -- Use the current buffer's path as the starting point for the git search

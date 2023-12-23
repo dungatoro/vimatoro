@@ -197,7 +197,7 @@ These are remaps that just enhance the basic editing experience.
 ## Notetaking
 These remaps are used for making quick markdown notes easier.
 ```lua init.lua
-vim.keymap.set("n", "<leader>s", [[:e <C-r><C-w>.md <CR>]])
+vim.keymap.set("n", "<leader>n", [[:e <C-r><C-w>.md <CR>]])
 ```
 
 ## Telescope
