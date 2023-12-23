@@ -5,6 +5,7 @@ are tangled with my `init.lua` using [urynus](https://github.com/dungatoro/urynu
 
 Set the `<leader>` key to space. Many plugins will expect a leader key to be set
 and refer to it in their default keybinds.
+
 ```lua init.lua
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -12,7 +13,7 @@ vim.g.maplocalleader = ' '
 
 ## Plugin Management
 
-### Bootstrap Lazy.nvim
+ ### Bootstrap Lazy.nvim
 
 ```lua init.lua
 -- Install `lazy.nvim` plugin manager
@@ -121,6 +122,8 @@ require('lazy').setup({
   -- gc to comment highlighted text
   'numToStr/Comment.nvim',
 
+  'ixru/nvim-markdown'
+
 })
 ```
 
@@ -180,7 +183,7 @@ vim.o.smartcase = true
 vim.o.completeopt = 'menuone,noselect'
 ```
 
-### Undos
+ ### Undos
 For better management of undo history I just use an undofile (I find the swap file
 annoying and unnecessary).
 ```lua init.lua

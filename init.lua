@@ -103,6 +103,8 @@ require('lazy').setup({
   -- gc to comment highlighted text
   'numToStr/Comment.nvim',
 
+  'ixru/nvim-markdown'
+
 })
 
 require('onedark').setup {
