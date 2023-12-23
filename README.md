@@ -3,10 +3,18 @@
 This is my literate neovim config written in markdown. The following code blocks
 are tangled with my `init.lua` using [urynus](https://github.com/dungatoro/urynus).
 
+Set the `<leader>` key to space. Many plugins will expect a leader key to be set
+and refer to it in their default keybinds.
 ```lua init.lua
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+```
 
+## Plugin Management
+
+### Bootstrap Lazy.nvim
+
+```lua init.lua
 -- Install `lazy.nvim` plugin manager
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
@@ -20,8 +28,11 @@ if not vim.loop.fs_stat(lazypath) then
   }
 end
 vim.opt.rtp:prepend(lazypath)
+```
 
--- Configure plugins
+### Installs
+Plugins are installed here, some are installed with configuration
+```lua init.lua
 require('lazy').setup({
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -38,9 +49,6 @@ require('lazy').setup({
       -- Automatically install LSPs to stdpath for neovim
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
-
-      -- Additional lua configuration, makes nvim stuff amazing!
-      'folke/neodev.nvim',
     },
   },
 
@@ -114,8 +122,13 @@ require('lazy').setup({
   'numToStr/Comment.nvim',
 
 })
+```
 
--- Theming
+## Theme
+I use the onedark colour scheme from Atom. I've left a few of the settings here
+in case I want to change the highlighting of specific elements; however these are
+pretty default.
+```lua init.lua
 require('onedark').setup {
   style = 'darker', -- dark darker cool deep warm warmer light
 
@@ -143,21 +156,20 @@ require('onedark').setup {
   },
 }
 require('onedark').load()
+```
 
--- easier to config nvim
-require('neodev').setup()
+## Settings
+My core editor settings are here 
 
--- Sets
+```lua init.lua
+vim.o.termguicolors = true -- full colours
+
 vim.wo.number = true
 vim.o.signcolumn = "no"
 vim.o.colorcolumn = "81"
 vim.o.breakindent = true
 vim.o.wrap = false
 vim.o.scrolloff = 8
-
--- Save undo history
-vim.o.undofile = true
-vim.o.swapfile = false
 
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.o.hlsearch = false
@@ -166,22 +178,30 @@ vim.o.smartcase = true
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
+```
 
-vim.o.termguicolors = true
+### Undos
+For better management of undo history I just use an undofile (I find the swap file
+annoying and unnecessary).
+```lua init.lua
+vim.o.undofile = true
+vim.o.swapfile = false
+```
 
--- Basic Keymaps
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+## Remaps
+These are remaps that just enhance the basic editing experience.
+```lua init.lua
+-- add remaps
+```
 
--- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-
--- NOTETAKING
+## Notetaking
+These remaps are used for making quick markdown notes easier.
+```lua init.lua
 vim.keymap.set("n", "<leader>s", [[:e <C-r><C-w>.md <CR>]])
+```
 
-
--- [[ Configure Telescope ]]
--- See `:help telescope` and `:help telescope.setup()`
+## Telescope
+```lua
 require('telescope').setup {
   defaults = {
     mappings = {
@@ -195,9 +215,10 @@ require('telescope').setup {
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
+```
 
--- Telescope live_grep in git root
--- Function to find the git root directory based on the current buffer's path
+I have some keybinds set up to do live grepping over my current git project.
+```lua init.lua
 local function find_git_root()
   -- Use the current buffer's path as the starting point for the git search
   local current_file = vim.api.nvim_buf_get_name(0)
@@ -233,7 +254,10 @@ end
 vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles,
   { desc = '[?] Find recently opened files' })
+```
 
+This does a search over the current neovim buffer. 
+```lua init.lua
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
@@ -241,17 +265,22 @@ vim.keymap.set('n', '<leader>/', function()
     previewer = false,
   })
 end, { desc = '[/] Fuzzily search in current buffer' })
+```
 
--- Configure Treesitter
--- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
+## Treesitter
+I use treesitter primarily to provide better syntax highlighting. It provides 
+other functionality; however I do not add any keybinds that make use of it.
+```lua init.lua
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     highlight = { enable = true },
     indent = { enable = true },
   }
 end, 0)
+```
 
--- Configure LSP
+## LSP
+```lua init.lua
 -- This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
   -- We create a function that lets us more easily define mappings specific
@@ -277,17 +306,18 @@ local on_attach = function(_, bufnr)
     vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
 end
+```
 
--- mason-lspconfig requires that these setup functions are called in this order
--- before setting up the servers.
+### Mason
+Mason is a kind of LSP manager, new servers can be installed through a menu using
+`:Mason`.
+
+```lua init.lua
 require('mason').setup()
 require('mason-lspconfig').setup()
 
 -- Enable the following language servers
 local servers = {
-
-  rust_analyzer = {},
-
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -295,10 +325,9 @@ local servers = {
       diagnostics = { disable = { 'missing-fields' } },
     }
   },
+
 }
 
-
--- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
@@ -314,17 +343,28 @@ mason_lspconfig.setup_handlers {
     }
   end,
 }
+```
 
--- Configure nvim-cmp
--- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+### Completions 
+I use nvim-cmp as a completion engine. 
+
+We need to broadcast to the lsp that we have completion capabilities so that we 
+can utilise completions.
+```lua init.lua
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+```
 
+Here we initiliase 'luasnip' for snippet completions.
+```lua init.lua
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 require('luasnip.loaders.from_vscode').lazy_load()
 luasnip.config.setup {}
+```
 
+The setup includes basic keybindings for navigating completions.
+```lua init.lua
 cmp.setup {
   snippet = {
     expand = function(args)
@@ -372,8 +412,14 @@ cmp.setup {
     { name = 'path' },
   },
 }
+```
 
--- Oil
+## Oil
+Oil is a handy file manager that allows me to edit a directory as if it was a 
+vim buffer. I can also jump between files as you might expect from a normal file
+manager.
+
+```lua init.lua
 require("oil").setup({
   view_options = {
     show_hidden = true,
@@ -389,6 +435,9 @@ require("oil").setup({
     },
   },
 })
+```
 
+This keybind opens up Oil in the current directory.
+```lua init.lua
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 ```

@@ -15,7 +15,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Configure plugins
 require('lazy').setup({
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -32,9 +31,6 @@ require('lazy').setup({
       -- Automatically install LSPs to stdpath for neovim
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
-
-      -- Additional lua configuration, makes nvim stuff amazing!
-      'folke/neodev.nvim',
     },
   },
 
@@ -44,8 +40,7 @@ require('lazy').setup({
       -- Snippet Engine & its associated nvim-cmp source
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
-
-      -- Adds LSP completion capabilities
+-- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
 
@@ -109,7 +104,6 @@ require('lazy').setup({
 
 })
 
--- Theming
 require('onedark').setup {
   style = 'darker', -- dark darker cool deep warm warmer light
 
@@ -138,20 +132,14 @@ require('onedark').setup {
 }
 require('onedark').load()
 
--- easier to config nvim
-require('neodev').setup()
+vim.o.termguicolors = true -- full colours
 
--- Sets
 vim.wo.number = true
 vim.o.signcolumn = "no"
 vim.o.colorcolumn = "81"
 vim.o.breakindent = true
 vim.o.wrap = false
 vim.o.scrolloff = 8
-
--- Save undo history
-vim.o.undofile = true
-vim.o.swapfile = false
 
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.o.hlsearch = false
@@ -161,37 +149,13 @@ vim.o.smartcase = true
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
-vim.o.termguicolors = true
+vim.o.undofile = true
+vim.o.swapfile = false
 
--- Basic Keymaps
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+-- add remaps
 
--- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-
--- NOTETAKING
 vim.keymap.set("n", "<leader>s", [[:e <C-r><C-w>.md <CR>]])
 
-
--- [[ Configure Telescope ]]
--- See `:help telescope` and `:help telescope.setup()`
-require('telescope').setup {
-  defaults = {
-    mappings = {
-      i = {
-        ['<C-u>'] = false,
-        ['<C-d>'] = false,
-      }
-    }
-  }
-}
-
--- Enable telescope fzf native, if installed
-pcall(require('telescope').load_extension, 'fzf')
-
--- Telescope live_grep in git root
--- Function to find the git root directory based on the current buffer's path
 local function find_git_root()
   -- Use the current buffer's path as the starting point for the git search
   local current_file = vim.api.nvim_buf_get_name(0)
@@ -236,8 +200,6 @@ vim.keymap.set('n', '<leader>/', function()
   })
 end, { desc = '[/] Fuzzily search in current buffer' })
 
--- Configure Treesitter
--- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     highlight = { enable = true },
@@ -245,7 +207,6 @@ vim.defer_fn(function()
   }
 end, 0)
 
--- Configure LSP
 -- This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
   -- We create a function that lets us more easily define mappings specific
@@ -272,16 +233,11 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
--- mason-lspconfig requires that these setup functions are called in this order
--- before setting up the servers.
 require('mason').setup()
 require('mason-lspconfig').setup()
 
 -- Enable the following language servers
 local servers = {
-
-  rust_analyzer = {},
-
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -289,10 +245,9 @@ local servers = {
       diagnostics = { disable = { 'missing-fields' } },
     }
   },
+
 }
 
-
--- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
@@ -309,8 +264,6 @@ mason_lspconfig.setup_handlers {
   end,
 }
 
--- Configure nvim-cmp
--- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
@@ -367,7 +320,6 @@ cmp.setup {
   },
 }
 
--- Oil
 require("oil").setup({
   view_options = {
     show_hidden = true,
@@ -385,3 +337,4 @@ require("oil").setup({
 })
 
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+
