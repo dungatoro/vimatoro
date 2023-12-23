@@ -55,6 +55,14 @@ require('lazy').setup({
   },
 
   {
+    'nvim-treesitter/nvim-treesitter',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+    },
+    build = ':TSUpdate',
+  },
+
+  {
     'navarasu/onedark.nvim',
     priority = 1000,
   },
@@ -77,8 +85,6 @@ require('lazy').setup({
     opts = {},
   },
 
-  -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
 
   {
     'nvim-telescope/telescope.nvim',
@@ -95,13 +101,11 @@ require('lazy').setup({
     }
   },
 
-  {
-    'nvim-treesitter/nvim-treesitter',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    },
-    build = ':TSUpdate',
-  },
+  'nvim-tree/nvim-web-devicons',
+  'stevearc/oil.nvim',
+
+  -- gc to comment highlighted text
+  'numToStr/Comment.nvim',
 
 })
 
@@ -134,6 +138,9 @@ require('onedark').setup {
 }
 require('onedark').load()
 
+-- easier to config nvim
+require('neodev').setup()
+
 -- Sets
 vim.wo.number = true
 vim.o.signcolumn = "no"
@@ -162,6 +169,10 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+-- NOTETAKING
+vim.keymap.set("n", "<leader>s", [[:e <C-r><C-w>.md <CR>]])
+
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
@@ -280,9 +291,6 @@ local servers = {
   },
 }
 
--- easier to config nvim
-require('neodev').setup()
-
 
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
@@ -358,3 +366,22 @@ cmp.setup {
     { name = 'path' },
   },
 }
+
+-- Oil
+require("oil").setup({
+  view_options = {
+    show_hidden = true,
+    is_hidden_file = function(name, bufnr)
+      return vim.startswith(name, ".")
+    end,
+    is_always_hidden = function(name, bufnr)
+      return false
+    end,
+    sort = {
+      { "type", "asc" },
+      { "name", "asc" },
+    },
+  },
+})
+
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
