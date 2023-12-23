@@ -1,7 +1,4 @@
----
-title: Vimatoro
-author: Dungatoro
----
+# Vimatoro
 
 This is my literate neovim config written in markdown. The following code blocks
 are tangled with my `init.lua` using [urynus](https://github.com/dungatoro/urynus).
