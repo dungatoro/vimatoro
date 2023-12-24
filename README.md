@@ -1,8 +1,8 @@
 # Vimatoro
-
 This is my literate neovim config written in markdown. The following code blocks
 are tangled with my `init.lua` using [urynus](https://github.com/dungatoro/urynus).
 
+## Initial
 Set the `<leader>` key to space. Many plugins will expect a leader key to be set
 and refer to it in their default keybinds.
 
@@ -31,7 +31,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 ```
 
-### Installs
+ ### Installs
 Plugins are installed here, some are installed with configuration
 ```lua init.lua
 require('lazy').setup({
@@ -162,7 +162,7 @@ require('onedark').load()
 ```
 
 ## Settings
-My core editor settings are here 
+My core editor settings are here. 
 
 ```lua init.lua
 vim.o.termguicolors = true -- full colours
@@ -192,19 +192,16 @@ vim.o.swapfile = false
 ```
 
 ## Remaps
-These are remaps that just enhance the basic editing experience.
+These remaps let me move highlited text.
 ```lua init.lua
--- add remaps
-```
-
-## Notetaking
-These remaps are used for making quick markdown notes easier.
-```lua init.lua
-vim.keymap.set("n", "<leader>nn", [[:e <C-r><C-w>.md <CR>]])
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 ```
 
 ## Telescope
-```lua
+[Telescope](https://github.com/nvim-telescope/telescope.nvim) is a powerful fuzzy
+finder.
+```lua init.lua
 require('telescope').setup {
   defaults = {
     mappings = {
@@ -271,8 +268,10 @@ end, { desc = '[/] Fuzzily search in current buffer' })
 ```
 
 ## Treesitter
-I use treesitter primarily to provide better syntax highlighting. It provides 
-other functionality; however I do not add any keybinds that make use of it.
+I use [treesitter](https://github.com/nvim-treesitter/nvim-treesitter) primarily 
+to provide better syntax highlighting. It provides other functionality; however 
+I do not add any keybinds that make use of it.
+
 ```lua init.lua
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
@@ -283,6 +282,10 @@ end, 0)
 ```
 
 ## LSP
+The [Lsp](https://neovim.io/doc/user/lsp.html) is common in IDE's and provides 
+code completion, syntaz highlighting, error and warning markers, definitions and 
+etc.
+
 ```lua init.lua
 -- This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
@@ -311,7 +314,7 @@ local on_attach = function(_, bufnr)
 end
 ```
 
-### Mason
+ ### Mason
 Mason is a kind of LSP manager, new servers can be installed through a menu using
 `:Mason`.
 
@@ -348,7 +351,7 @@ mason_lspconfig.setup_handlers {
 }
 ```
 
-### Completions 
+ ### Completions 
 I use nvim-cmp as a completion engine. 
 
 We need to broadcast to the lsp that we have completion capabilities so that we 
@@ -417,10 +420,17 @@ cmp.setup {
 }
 ```
 
+## Notetaking
+This remap opens a markdown file with the title of the word underneath my cursor
+in the current directory, if one already exists it will open that. This allows me
+to emulate [Obsidian](https://obsidian.md/)'s linked notes.
+```lua init.lua
+vim.keymap.set("n", "<leader>nn", [[:e <C-r><C-w>.md <CR>]])
+```
 ## Oil
-Oil is a handy file manager that allows me to edit a directory as if it was a 
-vim buffer. I can also jump between files as you might expect from a normal file
-manager.
+[Oil](https://github.com/stevearc/oil.nvim) is a handy file manager that allows 
+me to edit a directory as if it was a vim buffer. I can also jump between files 
+as you might expect from a normal file manager.
 
 ```lua init.lua
 require("oil").setup({
@@ -444,3 +454,14 @@ This keybind opens up Oil in the current directory.
 ```lua init.lua
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 ```
+## Urynus
+[Urynus](https://github.com/dungatoro/urynus) is a tool I wrote for literate
+programming.
+
+These keybinds make it faster to use in neovim.
+```lua init.lua
+vim.keymap.set("n", "<leader>ut", [[:!urynus tangle % <CR>]])
+vim.keymap.set("n", "<leader>us", [[:!urynus snip % <C-r><C-w> <CR>]])
+```
+
+

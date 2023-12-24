@@ -155,9 +155,22 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.undofile = true
 vim.o.swapfile = false
 
--- add remaps
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
-vim.keymap.set("n", "<leader>nn", [[:e <C-r><C-w>.md <CR>]])
+require('telescope').setup {
+  defaults = {
+    mappings = {
+      i = {
+        ['<C-u>'] = false,
+        ['<C-d>'] = false,
+      }
+    }
+  }
+}
+
+-- Enable telescope fzf native, if installed
+pcall(require('telescope').load_extension, 'fzf')
 
 local function find_git_root()
   -- Use the current buffer's path as the starting point for the git search
@@ -323,6 +336,8 @@ cmp.setup {
   },
 }
 
+vim.keymap.set("n", "<leader>nn", [[:e <C-r><C-w>.md <CR>]])
+
 require("oil").setup({
   view_options = {
     show_hidden = true,
@@ -340,4 +355,7 @@ require("oil").setup({
 })
 
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+
+vim.keymap.set("n", "<leader>ut", [[:!urynus tangle % <CR>]])
+vim.keymap.set("n", "<leader>us", [[:!urynus snip % <C-r><C-w> <CR>]])
 
