@@ -102,7 +102,6 @@ require('lazy').setup({
   -- gc to comment highlighted text
   'numToStr/Comment.nvim',
 
-  'ixru/nvim-markdown'
 
 })
 
@@ -336,35 +335,13 @@ cmp.setup {
 }
 
 require("nvim-lightbulb").setup({
-  autocmd = { enabled = true }
+  autocmd = { enabled = true },
+  number = {
+      enabled = true,
+      text = "*",
+      hl = "LightBulbNumber",
+  },
 })
-
-local default_config = {
-    priority = 10,
-    hide_in_unfocused_buffer = true,
-    link_highlights = true,
-    validate_config = "auto",
-    action_kinds = nil,
-
-    number = {
-        enabled = true,
-        text = "*",
-        hl = "LightBulbNumber",
-    },
-
-    autocmd = {
-        enabled = true,
-        updatetime = 200,
-        events = { "CursorHold", "CursorHoldI" },
-        pattern = { "*" },
-    },
-
-    ignore = {
-        clients = {},
-        ft = {},
-        actions_without_kind = false,
-    },
-}
 
 vim.keymap.set("n", "<leader>nn", [[:e <C-r><C-w>.md <CR>]])
 

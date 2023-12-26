@@ -121,7 +121,6 @@ require('lazy').setup({
   -- gc to comment highlighted text
   'numToStr/Comment.nvim',
 
-  'ixru/nvim-markdown'
 
 })
 ```
@@ -427,45 +426,24 @@ neovim using the lsp.
 
 ```lua init.lua
 require("nvim-lightbulb").setup({
-  autocmd = { enabled = true }
+  autocmd = { enabled = true },
+  number = {
+      enabled = true,
+      text = "*",
+      hl = "LightBulbNumber",
+  },
 })
-```
-```lua init.lua
-local default_config = {
-    priority = 10,
-    hide_in_unfocused_buffer = true,
-    link_highlights = true,
-    validate_config = "auto",
-    action_kinds = nil,
-
-    number = {
-        enabled = true,
-        text = "*",
-        hl = "LightBulbNumber",
-    },
-
-    autocmd = {
-        enabled = true,
-        updatetime = 200,
-        events = { "CursorHold", "CursorHoldI" },
-        pattern = { "*" },
-    },
-
-    ignore = {
-        clients = {},
-        ft = {},
-        actions_without_kind = false,
-    },
-}
 ```
 
 ## Notetaking
 This remap opens a markdown file with the title of the word underneath my cursor
 in the current directory, if one already exists it will open that. This emulates 
 [Obsidian](https://obsidian.md/)'s linked notes.
+
 ```lua init.lua
 vim.keymap.set("n", "<leader>nn", [[:e <C-r><C-w>.md <CR>]])
 ```
+
 ## Oil
 [Oil](https://github.com/stevearc/oil.nvim) is a handy file manager that allows 
 me to edit a directory as if it was a vim buffer. I can also jump between files 
@@ -503,5 +481,4 @@ vim.keymap.set("n", "<leader>ut", [[:!urynus tangle % <CR>]])
 vim.keymap.set("n", "<leader>us", [[:!urynus snip % <C-r><C-w> <CR>]])
 vim.keymap.set("n", "<leader>ui", [[:!urynus init]])
 ```
-
 
