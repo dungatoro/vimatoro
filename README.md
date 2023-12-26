@@ -422,8 +422,8 @@ cmp.setup {
 
 ## Notetaking
 This remap opens a markdown file with the title of the word underneath my cursor
-in the current directory, if one already exists it will open that. This allows me
-to emulate [Obsidian](https://obsidian.md/)'s linked notes.
+in the current directory, if one already exists it will open that. This emulates 
+[Obsidian](https://obsidian.md/)'s linked notes.
 ```lua init.lua
 vim.keymap.set("n", "<leader>nn", [[:e <C-r><C-w>.md <CR>]])
 ```
