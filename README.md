@@ -172,6 +172,12 @@ vim.o.breakindent = true
 vim.o.wrap = false
 vim.o.scrolloff = 8
 
+-- tabs
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.o.hlsearch = false
 vim.o.ignorecase = true
