@@ -42,16 +42,15 @@ require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
-  -- NOTE: This is where your plugins related to LSP can be installed.
-  --  The configuration is done below. Search for lspconfig to find it below.
   {
     'neovim/nvim-lspconfig',
     dependencies = {
-      -- Automatically install LSPs to stdpath for neovim
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
     },
   },
+
+  'kosayoda/nvim-lightbulb', -- code actions
 
   {
     'hrsh7th/nvim-cmp',
@@ -286,6 +285,8 @@ The [Lsp](https://neovim.io/doc/user/lsp.html) is common in IDE's and provides
 code completion, syntaz highlighting, error and warning markers, definitions and 
 etc.
 
+ ### Setup and Binds
+
 ```lua init.lua
 -- This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
@@ -417,6 +418,44 @@ cmp.setup {
     { name = 'luasnip' },
     { name = 'path' },
   },
+}
+```
+
+ ### Lightbulb
+[Lightbulb](https://github.com/kosayoda/nvim-lightbulb) adds code actions to 
+neovim using the lsp.
+
+```lua init.lua
+require("nvim-lightbulb").setup({
+  autocmd = { enabled = true }
+})
+```
+```lua init.lua
+local default_config = {
+    priority = 10,
+    hide_in_unfocused_buffer = true,
+    link_highlights = true,
+    validate_config = "auto",
+    action_kinds = nil,
+
+    number = {
+        enabled = true,
+        text = "*",
+        hl = "LightBulbNumber",
+    },
+
+    autocmd = {
+        enabled = true,
+        updatetime = 200,
+        events = { "CursorHold", "CursorHoldI" },
+        pattern = { "*" },
+    },
+
+    ignore = {
+        clients = {},
+        ft = {},
+        actions_without_kind = false,
+    },
 }
 ```
 

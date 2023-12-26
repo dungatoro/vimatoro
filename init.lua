@@ -23,16 +23,15 @@ require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
-  -- NOTE: This is where your plugins related to LSP can be installed.
-  --  The configuration is done below. Search for lspconfig to find it below.
   {
     'neovim/nvim-lspconfig',
     dependencies = {
-      -- Automatically install LSPs to stdpath for neovim
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
     },
   },
+
+  'kosayoda/nvim-lightbulb', -- code actions
 
   {
     'hrsh7th/nvim-cmp',
@@ -334,6 +333,37 @@ cmp.setup {
     { name = 'luasnip' },
     { name = 'path' },
   },
+}
+
+require("nvim-lightbulb").setup({
+  autocmd = { enabled = true }
+})
+
+local default_config = {
+    priority = 10,
+    hide_in_unfocused_buffer = true,
+    link_highlights = true,
+    validate_config = "auto",
+    action_kinds = nil,
+
+    number = {
+        enabled = true,
+        text = "*",
+        hl = "LightBulbNumber",
+    },
+
+    autocmd = {
+        enabled = true,
+        updatetime = 200,
+        events = { "CursorHold", "CursorHoldI" },
+        pattern = { "*" },
+    },
+
+    ignore = {
+        clients = {},
+        ft = {},
+        actions_without_kind = false,
+    },
 }
 
 vim.keymap.set("n", "<leader>nn", [[:e <C-r><C-w>.md <CR>]])
