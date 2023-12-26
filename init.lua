@@ -102,7 +102,7 @@ require('lazy').setup({
   -- gc to comment highlighted text
   'numToStr/Comment.nvim',
 
-
+  'mg979/vim-visual-multi',
 })
 
 require('onedark').setup {
