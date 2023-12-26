@@ -358,4 +358,5 @@ vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 vim.keymap.set("n", "<leader>ut", [[:!urynus tangle % <CR>]])
 vim.keymap.set("n", "<leader>us", [[:!urynus snip % <C-r><C-w> <CR>]])
+vim.keymap.set("n", "<leader>ui", [[:!urynus init]])
 

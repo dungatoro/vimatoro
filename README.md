@@ -462,6 +462,7 @@ These keybinds make it faster to use in neovim.
 ```lua init.lua
 vim.keymap.set("n", "<leader>ut", [[:!urynus tangle % <CR>]])
 vim.keymap.set("n", "<leader>us", [[:!urynus snip % <C-r><C-w> <CR>]])
+vim.keymap.set("n", "<leader>ui", [[:!urynus init]])
 ```
 
 
