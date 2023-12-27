@@ -447,7 +447,7 @@ in the current directory, if one already exists it will open that. This emulates
 [Obsidian](https://obsidian.md/)'s linked notes.
 
 ```lua init.lua
-vim.keymap.set("n", "<leader>nn", [[:e <C-r><C-w>.md <CR>]])
+vim.keymap.set("n", "<leader>ne", [[:e <C-r><C-w>.md <CR>]])
 ```
 
 ## Oil

@@ -349,7 +349,7 @@ require("nvim-lightbulb").setup({
   },
 })
 
-vim.keymap.set("n", "<leader>nn", [[:e <C-r><C-w>.md <CR>]])
+vim.keymap.set("n", "<leader>ne", [[:e <C-r><C-w>.md <CR>]])
 
 require("oil").setup({
   view_options = {
