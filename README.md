@@ -201,6 +201,11 @@ These remaps let me move highlited text.
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 ```
+This remap lets me copy text to the system clipboard.
+```lua init.lua
+vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set("n", "<leader>Y", [["+Y]])
+```
 
 ## Telescope
 [Telescope](https://github.com/nvim-telescope/telescope.nvim) is a powerful fuzzy
