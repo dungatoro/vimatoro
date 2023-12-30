@@ -31,8 +31,6 @@ require('lazy').setup({
     },
   },
 
-  'kosayoda/nvim-lightbulb', -- code actions
-
   {
     'hrsh7th/nvim-cmp',
     dependencies = {
@@ -136,7 +134,6 @@ require('onedark').load()
 vim.o.termguicolors = true -- full colours
 
 vim.wo.number = true
-vim.o.signcolumn = "no"
 vim.o.colorcolumn = "81"
 vim.o.breakindent = true
 vim.o.wrap = false
@@ -342,15 +339,6 @@ cmp.setup {
     { name = 'path' },
   },
 }
-
-require("nvim-lightbulb").setup({
-  autocmd = { enabled = true },
-  number = {
-      enabled = true,
-      text = "*",
-      hl = "LightBulbNumber",
-  },
-})
 
 vim.keymap.set("n", "<leader>ne", [[:e <C-r><C-w>.md <CR>]])
 

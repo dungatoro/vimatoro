@@ -50,8 +50,6 @@ require('lazy').setup({
     },
   },
 
-  'kosayoda/nvim-lightbulb', -- code actions
-
   {
     'hrsh7th/nvim-cmp',
     dependencies = {
@@ -166,7 +164,6 @@ My core editor settings are here.
 vim.o.termguicolors = true -- full colours
 
 vim.wo.number = true
-vim.o.signcolumn = "no"
 vim.o.colorcolumn = "81"
 vim.o.breakindent = true
 vim.o.wrap = false
@@ -429,21 +426,6 @@ cmp.setup {
     { name = 'path' },
   },
 }
-```
-
- ### Lightbulb
-[Lightbulb](https://github.com/kosayoda/nvim-lightbulb) adds code actions to 
-neovim using the lsp.
-
-```lua init.lua
-require("nvim-lightbulb").setup({
-  autocmd = { enabled = true },
-  number = {
-      enabled = true,
-      text = "*",
-      hl = "LightBulbNumber",
-  },
-})
 ```
 
 ## Notetaking
