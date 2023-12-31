@@ -135,6 +135,7 @@ vim.o.termguicolors = true -- full colours
 
 vim.wo.number = true
 vim.o.colorcolumn = "81"
+vim.o.signcolumn = "number"
 vim.o.breakindent = true
 vim.o.wrap = false
 vim.o.scrolloff = 8
