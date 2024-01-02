@@ -44,6 +44,7 @@ require('lazy').setup({
 
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
+      'kdheepak/cmp-latex-symbols',
     },
   },
 
@@ -298,6 +299,7 @@ cmp.setup {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
     { name = 'path' },
+    { name = 'latex_symbols'},
   },
   mapping = { 
     ['<CR>'] = cmp.mapping.confirm {select = false},
