@@ -383,8 +383,8 @@ The setup includes basic keybindings for navigating completions.
 cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
     { name = 'path' },
+    { name = 'luasnip' },
   },
   mapping = { 
     ['<CR>'] = cmp.mapping.confirm {select = false},

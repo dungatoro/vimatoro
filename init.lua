@@ -296,8 +296,8 @@ luasnip.config.setup {}
 cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
     { name = 'path' },
+    { name = 'luasnip' },
   },
   mapping = { 
     ['<CR>'] = cmp.mapping.confirm {select = false},
