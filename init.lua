@@ -28,6 +28,7 @@ require('lazy').setup({
     dependencies = {
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
+      'aznhe21/actions-preview.nvim',
     },
   },
 
@@ -314,6 +315,22 @@ cmp.setup {
     end,
   },
 }
+
+require("actions-preview").setup {
+  diff = { ctxlen = 3, },
+  backend = { "telescope" },
+
+  telescope = vim.tbl_extend(
+    "force",
+    require("telescope.themes").get_dropdown(),
+    {
+      make_value = nil,
+      make_make_display = nil,
+    }
+  )
+}
+
+vim.keymap.set({ "v", "n" }, "*", require("actions-preview").code_actions)
 
 vim.keymap.set("n", "<leader>ne", [[:e <C-r><C-w>.md <CR>]])
 

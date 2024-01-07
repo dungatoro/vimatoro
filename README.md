@@ -47,6 +47,7 @@ require('lazy').setup({
     dependencies = {
       'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
+      'aznhe21/actions-preview.nvim',
     },
   },
 
@@ -401,6 +402,28 @@ cmp.setup {
     end,
   },
 }
+```
+
+### Code Actions
+Code actions are very powerful. Often the LSP knows how to fix your code, when an
+error of some kind shows up on a line `*` in normal or visual mode will bring up 
+a menu to show the suggested actions i.e. fixes.
+```lua init.lua
+require("actions-preview").setup {
+  diff = { ctxlen = 3, },
+  backend = { "telescope" },
+
+  telescope = vim.tbl_extend(
+    "force",
+    require("telescope.themes").get_dropdown(),
+    {
+      make_value = nil,
+      make_make_display = nil,
+    }
+  )
+}
+
+vim.keymap.set({ "v", "n" }, "*", require("actions-preview").code_actions)
 ```
 
 ## Notetaking
