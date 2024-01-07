@@ -209,7 +209,8 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 ## Telescope
 [Telescope](https://github.com/nvim-telescope/telescope.nvim) is a powerful fuzzy
-finder.
+finder/ui backend. Many plugins support some kind of menu system with telescope as 
+a ui backend.
 ```lua init.lua
 require('telescope').setup {
   defaults = {
