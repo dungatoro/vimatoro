@@ -99,7 +99,6 @@ require('lazy').setup({
     opts = {},
   },
 
-
   {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
@@ -122,6 +121,11 @@ require('lazy').setup({
   'numToStr/Comment.nvim',
 
   'mg979/vim-visual-multi',
+
+  {'akinsho/toggleterm.nvim', version = "*", opts = {
+    shade_terminals = false,
+    }
+  }
 })
 ```
 
@@ -473,3 +477,10 @@ vim.keymap.set("n", "<leader>ut", [[:!urynus tangle % <CR>]])
 vim.keymap.set("n", "<leader>us", [[:!urynus snip % <C-r><C-w> <CR>]])
 vim.keymap.set("n", "<leader>ui", [[:!urynus init]])
 ```
+
+## Toggleterm
+```lua init.lua
+vim.keymap.set("n", "<c-/>", "<cmd>ToggleTerm<CR>")
+vim.keymap.set("t", "<c-/>", "<cmd>ToggleTerm<CR>")
+```
+
