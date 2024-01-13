@@ -479,6 +479,7 @@ vim.keymap.set("n", "<leader>ui", [[:!urynus init]])
 ```
 
 ## Toggleterm
+Toggles a terminal view for executing commands.
 ```lua init.lua
 vim.keymap.set("n", "<c-/>", "<cmd>ToggleTerm<CR>")
 vim.keymap.set("t", "<c-/>", "<cmd>ToggleTerm<CR>")
