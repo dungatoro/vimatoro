@@ -106,7 +106,10 @@ require('lazy').setup({
   {'akinsho/toggleterm.nvim', version = "*", opts = {
     shade_terminals = false,
     }
-  }
+  },
+
+  'jose-elias-alvarez/null-ls.nvim',
+  'semanticart/ruby-code-actions.nvim',
 })
 
 require('onedark').setup {
@@ -335,6 +338,18 @@ require("actions-preview").setup {
 }
 
 vim.keymap.set({ "v", "n" }, "*", require("actions-preview").code_actions)
+
+local null_ls = require("null-ls")
+local ruby_code_actions = require("ruby-code-actions")
+
+local sources = {
+  null_ls.builtins.formatting.rubocop,
+  null_ls.builtins.diagnostics.rubocop,
+  ruby_code_actions.insert_frozen_string_literal,
+  ruby_code_actions.autocorrect_with_rubocop,
+}
+
+null_ls.setup({ sources = sources })
 
 vim.keymap.set("n", "<leader>ne", [[:e <C-r><C-w>.md <CR>]])
 
