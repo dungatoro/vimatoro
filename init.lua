@@ -110,6 +110,7 @@ require('lazy').setup({
 
   'jose-elias-alvarez/null-ls.nvim',
   'semanticart/ruby-code-actions.nvim',
+  'mbbill/undotree',
 })
 
 require('onedark').setup {
@@ -165,6 +166,8 @@ vim.o.completeopt = 'menuone,noselect'
 
 vim.o.undofile = true
 vim.o.swapfile = false
+
+vim.keymap.set('n', '<leader>uh', vim.cmd.UndotreeToggle)
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")

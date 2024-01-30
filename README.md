@@ -129,6 +129,7 @@ require('lazy').setup({
 
   'jose-elias-alvarez/null-ls.nvim',
   'semanticart/ruby-code-actions.nvim',
+  'mbbill/undotree',
 })
 ```
 
@@ -194,13 +195,17 @@ vim.o.smartcase = true
 vim.o.completeopt = 'menuone,noselect'
 ```
 
- ### Undos
+### Undos
 For better management of undo history I just use an undofile (I find the swap file
 annoying and unnecessary).
 ```lua init.lua
 vim.o.undofile = true
 vim.o.swapfile = false
+
+vim.keymap.set('n', '<leader>uh', vim.cmd.UndotreeToggle)
 ```
+
+
 
 ## Remaps
 These remaps let me move highlited text.
