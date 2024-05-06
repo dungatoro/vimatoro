@@ -2,13 +2,24 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Set basic neovim options
-vim.opt.number = true
-vim.opt.backup = false
+-- Better undo history
+vim.opt.backup = false 
 vim.opt.swapfile = false
+vim.opt.undofile = true 
+
+-- Fix tabs
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
+vim.opt.expandtab = true
+
+-- Basic editor settings
+vim.opt.number = true
 vim.opt.wrap = false
+vim.opt.scrolloff = 8
+
+-- Move highlighted text
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- Load [lazy.nvim](https://github.com/folke/lazy.nvim)
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -59,12 +70,14 @@ require("lazy").setup({
 require('onedark').setup { style = 'darker' }
 require('onedark').load()
 
+-- Start LSP Zero
 local lsp_zero = require('lsp-zero')
 lsp_zero.on_attach(function(client, bufnr)
     -- `:help lsp-zero-keybindings` for the available actions
     lsp_zero.default_keymaps({buffer = bufnr})
 end)
 
+-- Start Mason
 require('mason').setup({})
 require('mason-lspconfig').setup({
   handlers = {
@@ -74,9 +87,11 @@ require('mason-lspconfig').setup({
   },
 })
 
+-- Start and set bind `*` for code actions
 require("actions-preview").setup()
 vim.keymap.set({ "v", "n" }, "*", require("actions-preview").code_actions)
 
+-- Start and set bind `-` for file management
 require("oil").setup({
 	view_options = {
 		show_hidden = true,
@@ -84,11 +99,7 @@ require("oil").setup({
 })
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
--- Execute Selected Script
-function execute_script(selection)
-end
-
--- List Shell Scripts
+-- List scripts in telescope UI
 function list_shell_scripts()
     require('telescope.builtin').find_files({
         prompt_title = 'Scripts',
@@ -99,25 +110,30 @@ function list_shell_scripts()
             height = 0.6,
         },
         attach_mappings = function(_, map)
-            -- Execute selected script on Enter
+            -- Execute selected script with <Enter>
             map('i', '<CR>', function(prompt_bufnr)
                 local selection = require('telescope.actions.state').get_selected_entry(prompt_bufnr)
                 require('telescope.actions').close(prompt_bufnr)
-    			if selection then
-    			    local script_path = selection.path
-    			    vim.fn.jobstart(script_path, {
-    			        on_exit = function(_, _, _)
-    			            print('Script executed successfully')
-    			        end,
-    			        on_stderr = function(_, data, _)
-    			            print('Error:', data)
-    			        end,
-    			    })
-    			end
+                exec_shell_script(selection)
             end)
             return true
         end,
     })
+end
+
+-- Function to execute scripts
+function exec_shell_script(selection)
+    if selection then
+        local script_path = selection.path
+        vim.fn.jobstart(script_path, {
+            on_exit = function(_, _, _)
+                print('Script executed successfully')
+            end,
+            on_stderr = function(_, data, _)
+                print('Error:', data)
+            end,
+        })
+    end
 end
 
 -- Key Mapping to List Scripts
