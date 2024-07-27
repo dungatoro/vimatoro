@@ -38,7 +38,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Install packages
 require("lazy").setup({
     -- Theme
-    'navarasu/onedark.nvim',
+    'ellisonleao/gruvbox.nvim',
 
     -- LSP base
     {'VonHeikemen/lsp-zero.nvim', branch = 'v3.x'},
@@ -67,8 +67,8 @@ require("lazy").setup({
 })
 
 -- Set theme
-require('onedark').setup { style = 'darker' }
-require('onedark').load()
+require('gruvbox').setup()
+require('gruvbox').load()
 
 -- Start LSP Zero
 local lsp_zero = require('lsp-zero')
